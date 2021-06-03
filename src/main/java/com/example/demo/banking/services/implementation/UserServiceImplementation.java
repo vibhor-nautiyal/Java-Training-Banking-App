@@ -16,8 +16,12 @@ import com.example.demo.banking.repositories.TransactionRepo;
 import com.example.demo.banking.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -109,6 +113,26 @@ public class UserServiceImplementation implements UserServices{
         Customer customer=utilityServices.getCustomerById(request.getUserId());
         customer.setAddress(request.getAddress());
         customerRepo.save(customer);
+    }
+
+    @Override
+    public List<TransactionResponse> paginatedHstory(EnquiryRequest request,Integer page) throws InvalidCredentialsException {
+        if(!authenticate(request.getUserId(),request.getPin()))
+            throw new InvalidCredentialsException("Invalid Credentials");
+
+        Integer recordPagePage=5;
+
+        Pageable pageable= PageRequest.of(page,recordPagePage);
+
+        Page<Transactions> transactions=transactionRepo.findByCidPaged(request.getUserId(),pageable);
+
+        List<Transactions> pageToList = new ArrayList<>();
+        if(transactions != null && transactions.hasContent()) {
+            pageToList = transactions.getContent();
+        }
+
+        List<TransactionResponse> response=transactionTransformer.transactionsToTransactionResponse(pageToList);
+        return response;
     }
 
 }

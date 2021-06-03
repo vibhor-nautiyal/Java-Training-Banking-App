@@ -11,6 +11,7 @@ import com.example.demo.banking.repositories.CustomerRepo;
 import com.example.demo.banking.repositories.TransactionRepo;
 import com.example.demo.banking.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -71,6 +72,17 @@ public class UserController {
         }
     }
 
+
+    @GetMapping("getPaginatedHistory/{page}")
+    public List<TransactionResponse> paginatedHistory(@RequestBody EnquiryRequest request,@PathVariable Integer page){
+        try{
+            return userServices.paginatedHstory(request,page);
+        }
+        catch(InvalidCredentialsException ex){
+            return null;
+        }
+    }
+
     @PatchMapping("/changePin")
     public String changePin(@RequestBody ChangeDetailsRequest request){
         try{
@@ -102,5 +114,6 @@ public class UserController {
             return ex.getMessage();
         }
     }
+
 
 }
