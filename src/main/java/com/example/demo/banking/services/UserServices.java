@@ -1,5 +1,6 @@
 package com.example.demo.banking.services;
 
+import com.example.demo.banking.dto.requests.ChangeDetailsRequest;
 import com.example.demo.banking.dto.requests.EnquiryRequest;
 import com.example.demo.banking.dto.requests.TransactionRequest;
 import com.example.demo.banking.dto.response.BalanceEnquiryResponse;
@@ -15,4 +16,10 @@ public interface UserServices {
     void deposit(TransactionRequest request) throws InvalidCredentialsException;
     void withdraw(TransactionRequest request) throws InsufficientBalanceException, InvalidCredentialsException;
     List<TransactionResponse> history(EnquiryRequest request) throws InvalidCredentialsException;
+
+    void updatePin(ChangeDetailsRequest request) throws InvalidCredentialsException;
+
+    void updatePhone(ChangeDetailsRequest request) throws InvalidCredentialsException;
+
+    void updateAddress(ChangeDetailsRequest request) throws InvalidCredentialsException;
 }

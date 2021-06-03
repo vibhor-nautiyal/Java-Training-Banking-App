@@ -1,5 +1,6 @@
 package com.example.demo.banking.services.implementation;
 
+import com.example.demo.banking.dto.requests.ChangeDetailsRequest;
 import com.example.demo.banking.dto.requests.EnquiryRequest;
 import com.example.demo.banking.dto.requests.TransactionRequest;
 import com.example.demo.banking.dto.response.BalanceEnquiryResponse;
@@ -85,6 +86,29 @@ public class UserServiceImplementation implements UserServices{
         List<Transactions> transactions=transactionRepo.findByCId(request.getUserId());
         List<TransactionResponse> response=transactionTransformer.transactionsToTransactionResponse(transactions);
         return response;
+    }
+
+    public void updatePin(ChangeDetailsRequest request)throws InvalidCredentialsException{
+        if(!authenticate(request.getUserId(),request.getPin()))
+            throw new InvalidCredentialsException("Invalid Credentials");
+        Customer customer=utilityServices.getCustomerById(request.getUserId());
+        customer.setPin(request.getNewPin());
+        customerRepo.save(customer);
+    }
+
+    public void updatePhone(ChangeDetailsRequest request) throws InvalidCredentialsException{
+        if(!authenticate(request.getUserId(),request.getPin()))
+            throw new InvalidCredentialsException("Invalid Credentials");
+        Customer customer=utilityServices.getCustomerById(request.getUserId());
+        customer.setPhone(request.getPhone());
+        customerRepo.save(customer);
+    }
+    public void updateAddress(ChangeDetailsRequest request) throws InvalidCredentialsException{
+        if(!authenticate(request.getUserId(),request.getPin()))
+            throw new InvalidCredentialsException("Invalid Credentials");
+        Customer customer=utilityServices.getCustomerById(request.getUserId());
+        customer.setAddress(request.getAddress());
+        customerRepo.save(customer);
     }
 
 }

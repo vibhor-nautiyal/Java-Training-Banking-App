@@ -1,11 +1,10 @@
 package com.example.demo.banking.controllers;
 
+import com.example.demo.banking.dto.requests.ChangeDetailsRequest;
 import com.example.demo.banking.dto.requests.EnquiryRequest;
 import com.example.demo.banking.dto.requests.TransactionRequest;
 import com.example.demo.banking.dto.response.BalanceEnquiryResponse;
 import com.example.demo.banking.dto.response.TransactionResponse;
-import com.example.demo.banking.entities.Customer;
-import com.example.demo.banking.entities.Transactions;
 import com.example.demo.banking.exceptions.InsufficientBalanceException;
 import com.example.demo.banking.exceptions.InvalidCredentialsException;
 import com.example.demo.banking.repositories.CustomerRepo;
@@ -14,7 +13,6 @@ import com.example.demo.banking.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/user")
@@ -74,8 +72,35 @@ public class UserController {
     }
 
     @PatchMapping("/changePin")
-    public String changePin(){
+    public String changePin(@RequestBody ChangeDetailsRequest request){
+        try{
+            userServices.updatePin(request);
+            return "Successfully changed PIN";
+        }
+        catch(InvalidCredentialsException ex){
+            return ex.getMessage();
+        }
+    }
+    @PatchMapping("/changePhone")
+    public String changePhone(@RequestBody ChangeDetailsRequest request){
+        try{
+            userServices.updatePhone(request);
+            return "Successfully changed Phone Number";
+        }
+        catch(InvalidCredentialsException ex){
+            return ex.getMessage();
+        }
+    }
 
+    @PatchMapping("/changeAddress")
+    public String changeAddress(@RequestBody ChangeDetailsRequest request){
+        try{
+            userServices.updateAddress(request);
+            return "Successfully changed Address";
+        }
+        catch(InvalidCredentialsException ex){
+            return ex.getMessage();
+        }
     }
 
 }
