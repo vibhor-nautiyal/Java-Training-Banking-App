@@ -3,6 +3,7 @@ package com.example.demo.banking.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -14,10 +15,15 @@ public class Transactions {
     private Integer id;
 
     @Column
-    private Double amount;
+    Date date;
 
     @Column
-    private Double balance;
+    private Double amount;
+
+
+    @Column
+    private Double closingBalance;
+
 
     @ManyToOne
     @JoinColumn(name="cId")

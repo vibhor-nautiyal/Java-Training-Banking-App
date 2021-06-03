@@ -5,6 +5,7 @@ import com.example.demo.banking.dto.transformer.CreateAccountTransformer;
 import com.example.demo.banking.entities.Customer;
 import com.example.demo.banking.repositories.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,6 +19,9 @@ public class UtilityServices {
     @Autowired
     private CreateAccountTransformer createAccountTransformer;
 
+//    @Autowired
+//    PasswordEncoder bcryptEncoder;
+
     public Customer getCustomerById(Integer id){
         Optional<Customer> customer=customerRepo.findById(id);
         return customer.orElse(null);
@@ -25,6 +29,7 @@ public class UtilityServices {
 
     public void createUser(CreateAccountRequest request){
         Customer customer=createAccountTransformer.createAccountRequestToModel(request);
+//        customer.setPin(bcryptEncoder.encode(customer.getPin()));
         customerRepo.save(customer);
     }
 
