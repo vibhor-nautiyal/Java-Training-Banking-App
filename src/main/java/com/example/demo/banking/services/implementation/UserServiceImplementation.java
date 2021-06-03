@@ -11,12 +11,14 @@ import com.example.demo.banking.repositories.CustomerRepo;
 import com.example.demo.banking.repositories.TransactionRepo;
 import com.example.demo.banking.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+@Service
 public class UserServiceImplementation implements UserServices{
 
 
@@ -43,7 +45,9 @@ public class UserServiceImplementation implements UserServices{
     }
 
     public void deposit(TransactionRequest request){
+        System.out.println(request);
         Transactions transactions=transactionTransformer.depositTransactionRequestToTransaction(request);
+        System.out.println(transactions);
         Customer customer=transactions.getCustomer();
         customer.setBalance(customer.getBalance()+request.getAmount());
         customerRepo.save(customer);

@@ -17,6 +17,7 @@ public class TransactionTransformer {
         Transactions transaction=new Transactions();
         transaction.setAmount(request.getAmount());
         Customer customer=utilityServices.getCustomerById(request.getUserId());
+        transaction.setCustomer(customer);
         transaction.setBalance(request.getAmount()+customer.getBalance());
 //        customer.setBalance(request.getAmount()+customer.getBalance());
         return transaction;
@@ -26,7 +27,8 @@ public class TransactionTransformer {
         Transactions transaction=new Transactions();
         transaction.setAmount(-request.getAmount());
         Customer customer=utilityServices.getCustomerById(request.getUserId());
-        transaction.setBalance(request.getAmount()+customer.getBalance());
+        transaction.setCustomer(customer);
+        transaction.setBalance(request.getAmount()-customer.getBalance());
 //        customer.setBalance(request.getAmount()+customer.getBalance());
         return transaction;
     }

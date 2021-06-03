@@ -25,13 +25,13 @@ public class UserController {
     private TransactionRepo transactionRepo;
 
     @PostMapping("/deposit")
-    public String deposit(TransactionRequest transaction){
+    public String deposit(@RequestBody TransactionRequest transaction){
         userServices.deposit(transaction);
         return "Transaction Successful";
     }
 
     @PostMapping("/withdraw")
-    public String withdraw(TransactionRequest transaction){
+    public String withdraw(@RequestBody  TransactionRequest transaction){
         try{
             userServices.withdraw(transaction);
             return "Transaction Successful";

@@ -4,20 +4,15 @@ import com.example.demo.banking.dto.requests.CreateAccountRequest;
 import com.example.demo.banking.dto.transformer.CreateAccountTransformer;
 import com.example.demo.banking.entities.Customer;
 import com.example.demo.banking.repositories.CustomerRepo;
+import com.example.demo.banking.services.implementation.UtilityServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UtilityController {
-    @Autowired
-    private CustomerRepo customerRepo;
 
     @Autowired
-    private CreateAccountTransformer transformer;
-
+    UtilityServices utilityServices;
 
     @GetMapping("/welcome")
     public String hello(){
@@ -26,8 +21,12 @@ public class UtilityController {
 
     @PostMapping("/createUser")
     public String createUser(@RequestBody CreateAccountRequest request){
-        Customer customer=transformer.createAccountRequestToModel(request);
-        customerRepo.save(customer);
+        utilityServices.createUser(request);
         return "User "+request.getName()+" created";
+    }
+
+    @GetMapping("/getById/{id}")
+    public Customer getById(@PathVariable Integer id){
+        return utilityServices.getCustomerById(id);
     }
 }
