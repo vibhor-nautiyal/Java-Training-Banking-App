@@ -38,9 +38,9 @@ public class UserController {
     @PostMapping("/deposit")
     public String deposit(@RequestBody TransactionRequest transaction) {
         try {
-            userServices.deposit(transaction);
+            String msg=userServices.deposit(transaction);
             log.info("Deposit successful");
-            return "Transaction Successful";
+            return msg;
         }
         catch (InvalidCredentialsException ex){
             log.error("Deposit failed");
@@ -51,9 +51,9 @@ public class UserController {
     @PostMapping("/withdraw")
     public String withdraw(@RequestBody  TransactionRequest transaction){
         try{
-            userServices.withdraw(transaction);
+            String msg=userServices.withdraw(transaction);
             log.info("Withdrawal successful");
-            return "Transaction Successful";
+            return msg;
         }
         catch(InvalidCredentialsException | InsufficientBalanceException ex){
             log.error("Withdrawal failed");
@@ -91,7 +91,7 @@ public class UserController {
     public List<TransactionResponse> paginatedHistory(@RequestBody EnquiryRequest request,@PathVariable Integer page){
         try{
             log.info("Fetching page {} of history",page);
-            return userServices.paginatedHstory(request,page);
+            return userServices.paginatedHistory(request,page);
         }
         catch(InvalidCredentialsException ex){
             log.error(ex.getMessage());
@@ -102,9 +102,9 @@ public class UserController {
     @PatchMapping("/changePin")
     public String changePin(@RequestBody ChangeDetailsRequest request){
         try{
-            userServices.updatePin(request);
+            String msg=userServices.updatePin(request);
             log.info("Changed pin");
-            return "Successfully changed PIN";
+            return msg;
         }
         catch(NoSuchAlgorithmException ex){
             log.error(ex.getMessage());
@@ -118,9 +118,9 @@ public class UserController {
     @PatchMapping("/changePhone")
     public String changePhone(@RequestBody ChangeDetailsRequest request){
         try{
-            userServices.updatePhone(request);
+            String msg=userServices.updatePhone(request);
             log.info("Changed Phone number");
-            return "Successfully changed Phone Number";
+            return msg;
         }
         catch(InvalidCredentialsException ex){
             log.warn(ex.getMessage());
@@ -131,9 +131,9 @@ public class UserController {
     @PatchMapping("/changeAddress")
     public String changeAddress(@RequestBody ChangeDetailsRequest request){
         try{
-            userServices.updateAddress(request);
+            String msg=userServices.updateAddress(request);
             log.info("Changed address");
-            return "Successfully changed Address";
+            return msg;
         }
         catch(InvalidCredentialsException ex){
             log.warn(ex.getMessage());

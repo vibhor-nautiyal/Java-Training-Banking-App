@@ -15,15 +15,15 @@ import java.util.List;
 
 public interface UserServices {
     BalanceEnquiryResponse checkBalance(EnquiryRequest request) throws InvalidCredentialsException;
-    void deposit(TransactionRequest request) throws InvalidCredentialsException;
-    void withdraw(TransactionRequest request) throws InsufficientBalanceException, InvalidCredentialsException;
+    String deposit(TransactionRequest request) throws InvalidCredentialsException;
+    String withdraw(TransactionRequest request) throws InsufficientBalanceException, InvalidCredentialsException;
     List<TransactionResponse> history(EnquiryRequest request) throws InvalidCredentialsException;
 
-    void updatePin(ChangeDetailsRequest request) throws InvalidCredentialsException, NoSuchAlgorithmException;
+    String updatePin(ChangeDetailsRequest request) throws InvalidCredentialsException, NoSuchAlgorithmException;
 
-    void updatePhone(ChangeDetailsRequest request) throws InvalidCredentialsException;
+    String updatePhone(ChangeDetailsRequest request) throws InvalidCredentialsException;
 
-    void updateAddress(ChangeDetailsRequest request) throws InvalidCredentialsException;
-
-    List<TransactionResponse> paginatedHstory(EnquiryRequest request,Integer page) throws InvalidCredentialsException;
+    String updateAddress(ChangeDetailsRequest request) throws InvalidCredentialsException;
+    boolean authenticate(Integer id,String pin);
+    List<TransactionResponse> paginatedHistory(EnquiryRequest request,Integer page) throws InvalidCredentialsException;
 }

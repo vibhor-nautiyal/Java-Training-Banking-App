@@ -6,8 +6,8 @@ import com.example.demo.banking.dto.requests.EnquiryRequest;
 import com.example.demo.banking.dto.requests.TransactionRequest;
 import com.example.demo.banking.dto.response.BalanceEnquiryResponse;
 import com.example.demo.banking.dto.response.TransactionResponse;
-import com.example.demo.banking.dto.transformer.BalanceEnquiryTransformer;
-import com.example.demo.banking.dto.transformer.TransactionTransformer;
+import com.example.demo.banking.dto.transformer.BalanceEnquiryTransformerImpl;
+import com.example.demo.banking.dto.transformer.TransactionTransformerImpl;
 import com.example.demo.banking.entities.Customer;
 import com.example.demo.banking.entities.Transactions;
 import com.example.demo.banking.exceptions.InsufficientBalanceException;
@@ -37,7 +37,7 @@ public class UserServiceImplementation implements UserServices{
     UtilityServices utilityServices;
 
     @Autowired
-    private TransactionTransformer transactionTransformer;
+    private TransactionTransformerImpl transactionTransformer;
 
     @Autowired
     private CustomerRepo customerRepo;
@@ -46,7 +46,7 @@ public class UserServiceImplementation implements UserServices{
     private TransactionRepo transactionRepo;
 
     @Autowired
-    private BalanceEnquiryTransformer balanceEnquiryTransformer;
+    private BalanceEnquiryTransformerImpl balanceEnquiryTransformer;
 
 //    @Autowired
 //    PasswordEncoder bcryptEncoder;
@@ -78,7 +78,7 @@ public class UserServiceImplementation implements UserServices{
         return response;
     }
 
-    public void deposit(TransactionRequest request) throws InvalidCredentialsException {
+    public String deposit(TransactionRequest request) throws InvalidCredentialsException {
         log.info("Request for deposit");
         if(!authenticate(request.getUserId(),request.getPin()))
             throw new InvalidCredentialsException("Invalid Credentials");
@@ -87,9 +87,10 @@ public class UserServiceImplementation implements UserServices{
         customer.setBalance(customer.getBalance()+request.getAmount());
         customerRepo.save(customer);
         transactionRepo.save(transactions);
+        return "Transaction Successful";
     }
 
-    public void withdraw(TransactionRequest request) throws InsufficientBalanceException,InvalidCredentialsException {
+    public String withdraw(TransactionRequest request) throws InsufficientBalanceException,InvalidCredentialsException {
         log.info("Request for withdraw");
         if(!authenticate(request.getUserId(),request.getPin()))
             throw new InvalidCredentialsException("Invalid Credentials");
@@ -100,6 +101,7 @@ public class UserServiceImplementation implements UserServices{
         customer.setBalance(customer.getBalance() - request.getAmount());
         customerRepo.save(customer);
         transactionRepo.save(transactions);
+        return "Transaction Successful";
 
     }
     public List<TransactionResponse> history(EnquiryRequest request) throws  InvalidCredentialsException{
@@ -111,34 +113,37 @@ public class UserServiceImplementation implements UserServices{
         return response;
     }
 
-    public void updatePin(ChangeDetailsRequest request)throws InvalidCredentialsException,NoSuchAlgorithmException{
+    public String updatePin(ChangeDetailsRequest request)throws InvalidCredentialsException,NoSuchAlgorithmException{
         log.info("Request for updating pin");
         if(!authenticate(request.getUserId(),request.getPin()))
             throw new InvalidCredentialsException("Invalid Credentials");
         Customer customer= utilityServices.getCustomerById(request.getUserId());
         customer.setPin(utilityServices.md5Hasher(request.getNewPin()));
         customerRepo.save(customer);
+        return "Pin changed successfully";
     }
 
-    public void updatePhone(ChangeDetailsRequest request) throws InvalidCredentialsException{
+    public String updatePhone(ChangeDetailsRequest request) throws InvalidCredentialsException{
         log.info("Request for updating phone number");
         if(!authenticate(request.getUserId(),request.getPin()))
             throw new InvalidCredentialsException("Invalid Credentials");
         Customer customer= utilityServices.getCustomerById(request.getUserId());
         customer.setPhone(request.getPhone());
         customerRepo.save(customer);
+        return "Phone number updated";
     }
-    public void updateAddress(ChangeDetailsRequest request) throws InvalidCredentialsException{
+    public String updateAddress(ChangeDetailsRequest request) throws InvalidCredentialsException{
         log.info("Request for updating address");
         if(!authenticate(request.getUserId(),request.getPin()))
             throw new InvalidCredentialsException("Invalid Credentials");
         Customer customer= utilityServices.getCustomerById(request.getUserId());
         customer.setAddress(request.getAddress());
         customerRepo.save(customer);
+        return "Address updated";
     }
 
     @Override
-    public List<TransactionResponse> paginatedHstory(EnquiryRequest request,Integer page) throws InvalidCredentialsException {
+    public List<TransactionResponse> paginatedHistory(EnquiryRequest request,Integer page) throws InvalidCredentialsException {
         log.info("Request for paginated history for page="+page);
         if(!authenticate(request.getUserId(),request.getPin()))
             throw new InvalidCredentialsException("Invalid Credentials");

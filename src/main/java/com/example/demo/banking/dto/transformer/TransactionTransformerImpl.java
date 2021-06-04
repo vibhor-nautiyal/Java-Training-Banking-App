@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class TransactionTransformer {
+public class TransactionTransformerImpl {
 
     @Autowired
     UtilityServices utilityServices;

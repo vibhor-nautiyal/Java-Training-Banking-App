@@ -5,7 +5,7 @@ import com.example.demo.banking.entities.Customer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BalanceEnquiryTransformer {
+public class BalanceEnquiryTransformerImpl {
 
     public BalanceEnquiryResponse customerToBalanceEnquiry(Customer customer){
 

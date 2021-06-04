@@ -2,7 +2,7 @@ package com.example.demo.banking.services.implementation;
 
 import com.example.demo.banking.Application;
 import com.example.demo.banking.dto.requests.CreateAccountRequest;
-import com.example.demo.banking.dto.transformer.CreateAccountTransformer;
+import com.example.demo.banking.dto.transformer.CreateAccountTransformerImpl;
 import com.example.demo.banking.entities.Customer;
 import com.example.demo.banking.entities.Transactions;
 import com.example.demo.banking.repositories.CustomerRepo;
@@ -33,7 +33,7 @@ public class UtilityServicesImplementation implements UtilityServices {
     private TransactionRepo transactionRepo;
 
     @Autowired
-    private CreateAccountTransformer createAccountTransformer;
+    private CreateAccountTransformerImpl createAccountTransformer;
 
 //    @Autowired
 //    PasswordEncoder bcryptEncoder;

@@ -5,7 +5,7 @@ import com.example.demo.banking.entities.Customer;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreateAccountTransformer {
+public class CreateAccountTransformerImpl {
 
     public Customer createAccountRequestToModel(CreateAccountRequest request){
 
