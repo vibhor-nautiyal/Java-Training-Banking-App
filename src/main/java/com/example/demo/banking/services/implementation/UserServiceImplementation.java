@@ -21,6 +21,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +52,28 @@ public class UserServiceImplementation implements UserServices{
     public boolean authenticate(Integer id,String pin){
         Customer customer=utilityServices.getCustomerById(id);
 //        return bcryptEncoder.matches(pin,customer.getPin());
-        return customer.getPin().equals(pin);
+        try {
+            String hash = md5Hasher(pin);
+            return customer.getPin().equals(hash);
+        }
+        catch(NoSuchAlgorithmException ex){
+
+            return false;
+        }
     }
+
+    public String md5Hasher(String pin)throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] messageDigest = md.digest(pin.getBytes());
+        BigInteger no = new BigInteger(1, messageDigest);
+        String hashtext = no.toString(16);
+        while (hashtext.length() < 32) {
+            hashtext = "0" + hashtext;
+        }
+        return hashtext;
+    }
+
 
     public BalanceEnquiryResponse checkBalance(EnquiryRequest request) throws  InvalidCredentialsException{
         if(!authenticate(request.getUserId(),request.getPin()))

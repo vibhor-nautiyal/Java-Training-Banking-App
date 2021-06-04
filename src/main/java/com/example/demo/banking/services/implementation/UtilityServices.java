@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -35,11 +39,32 @@ public class UtilityServices {
         return customer.orElse(null);
     }
 
-    public void createUser(CreateAccountRequest request){
+    public String createUser(CreateAccountRequest request){
         Customer customer=createAccountTransformer.createAccountRequestToModel(request);
 //        customer.setPin(bcryptEncoder.encode(customer.getPin()));
-        customerRepo.save(customer);
+        try{
+            String hash=md5Hasher(customer.getPin());
+            customer.setPin(hash);
+            customerRepo.save(customer);
+            return "User "+request.getName()+" created";
+        }
+        catch(NoSuchAlgorithmException ex){
+            return "Couldn't create user!!!";
+        }
     }
+
+    public String md5Hasher(String pin)throws NoSuchAlgorithmException{
+
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(pin.getBytes());
+            BigInteger no = new BigInteger(1, messageDigest);
+            String hashtext = no.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+    }
+
 
     @Scheduled(cron = "0 0 12 1 * ?")
     void deductRDBalance(){

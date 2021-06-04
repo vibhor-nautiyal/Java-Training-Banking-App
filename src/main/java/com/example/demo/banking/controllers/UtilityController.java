@@ -21,8 +21,8 @@ public class UtilityController {
 
     @PostMapping("/createUser")
     public String createUser(@RequestBody CreateAccountRequest request){
-        utilityServices.createUser(request);
-        return "User "+request.getName()+" created";
+        String msg=utilityServices.createUser(request);
+        return msg;
     }
 
     @GetMapping("/getById/{id}")
