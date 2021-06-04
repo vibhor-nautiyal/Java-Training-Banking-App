@@ -41,28 +41,28 @@ public class UtilityServices {
         customerRepo.save(customer);
     }
 
-//    @Scheduled(cron = "0 0 1 * *")
-//    void deductRDBalance(){
-//        List<Customer> RDCustomers=customerRepo.getByAccountType("RD");
-//
-//        for(Customer customer: RDCustomers){
-//            if(customer.getBalance()>=100)
-//                customer.setBalance(customer.getBalance()-100);
-//            Transactions transaction=new Transactions();
-//            transaction.setAmount(-100.0);
-//            transaction.setCustomer(customer);
-//            transaction.setDate(new Date());
-//            transaction.setClosingBalance(customer.getBalance());
-//            customerRepo.save(customer);
-//            transactionRepo.save(transaction);
-//        }
-//
-//    }
+    @Scheduled(cron = "0 0 12 1 * ?")
+    void deductRDBalance(){
+        List<Customer> RDCustomers=customerRepo.getByAccountType("RD");
 
+        for(Customer customer: RDCustomers){
+            if(customer.getBalance()>=100)
+                customer.setBalance(customer.getBalance()-100);
+            Transactions transaction=new Transactions();
+            transaction.setAmount(-100.0);
+            transaction.setCustomer(customer);
+            transaction.setDate(new Date());
+            transaction.setClosingBalance(customer.getBalance());
+            customerRepo.save(customer);
+            transactionRepo.save(transaction);
+        }
 
-    @Scheduled(fixedDelay = 1000)
-    void testScheduler(){
-        System.out.println(new Date());
     }
+
+
+//    @Scheduled(fixedDelay = 1000)
+//    void testScheduler(){
+//        System.out.println(new Date());
+//    }
 
 }
