@@ -64,7 +64,7 @@ public class UserServiceImplementation implements UserServices{
             return customer.getPin().equals(hash);
         }
         catch(NoSuchAlgorithmException ex){
-
+            log.error(ex.getMessage());
             return false;
         }
     }
@@ -148,12 +148,11 @@ public class UserServiceImplementation implements UserServices{
         if(!authenticate(request.getUserId(),request.getPin()))
             throw new InvalidCredentialsException("Invalid Credentials");
 
-        Integer recordPagePage=5;
+        Integer recordPerPage=5;
 
-        Pageable pageable= PageRequest.of(page,recordPagePage);
+        Pageable pageable= PageRequest.of(page,recordPerPage);
 
         Page<Transactions> transactions=transactionRepo.findByCidPaged(request.getUserId(),pageable);
-
         List<Transactions> pageToList = new ArrayList<>();
         if(transactions != null && transactions.hasContent()) {
             pageToList = transactions.getContent();

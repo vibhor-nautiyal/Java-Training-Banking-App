@@ -6,4 +6,12 @@ import lombok.Data;
 public class EnquiryRequest {
     private Integer userId;
     private String pin;
+
+    public EnquiryRequest() {
+    }
+
+    public EnquiryRequest(Integer userId, String pin) {
+        this.userId = userId;
+        this.pin = pin;
+    }
 }

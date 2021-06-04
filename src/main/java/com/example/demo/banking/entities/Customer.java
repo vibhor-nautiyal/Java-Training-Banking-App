@@ -32,5 +32,16 @@ public class Customer {
     @Column
     private String pin;
 
+    public Customer() {
+    }
 
+    public Customer(Integer id, Long phone, String name, String address, String accountType, Double balance, String pin) {
+        this.id = id;
+        this.phone = phone;
+        this.name = name;
+        this.address = address;
+        this.accountType = accountType;
+        this.balance = balance;
+        this.pin = pin;
+    }
 }

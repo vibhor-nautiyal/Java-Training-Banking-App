@@ -9,6 +9,8 @@ import java.util.Date;
 @Entity
 public class Transactions {
 
+
+
     @Id
     @Column(name="tId")
     @GeneratedValue(strategy =  GenerationType.AUTO)
@@ -29,4 +31,14 @@ public class Transactions {
     @JoinColumn(name="cId")
     private Customer customer;
 
+    public Transactions() {
+    }
+
+    public Transactions(Integer id, Date date, Double amount, Double closingBalance, Customer customer) {
+        this.id = id;
+        this.date = date;
+        this.amount = amount;
+        this.closingBalance = closingBalance;
+        this.customer = customer;
+    }
 }

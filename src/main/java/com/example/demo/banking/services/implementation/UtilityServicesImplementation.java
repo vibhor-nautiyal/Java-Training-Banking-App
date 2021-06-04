@@ -41,8 +41,9 @@ public class UtilityServicesImplementation implements UtilityServices {
     private static final Logger log= LoggerFactory.getLogger(Application.class.getName());
 
     public Customer getCustomerById(Integer id){
-        log.info("Getting customer with ID="+id);
+        log.info("Getting customer with ID={}",id);
         Optional<Customer> customer=customerRepo.findById(id);
+        System.out.println(customer);
         if(customer.isPresent())
             log.info("User found");
         else log.error("User not found");
@@ -75,12 +76,15 @@ public class UtilityServicesImplementation implements UtilityServices {
         while (hashtext.length() < 32) {
             hashtext = "0" + hashtext;
         }
+        System.out.println(pin+" "+hashtext);
+        log.info("NoSuchAlgoException not thrown");
+
         return hashtext;
     }
 
 
     @Scheduled(cron = "0 0 12 1 * ?")
-    public void deductRDBalance(){
+    public String deductRDBalance(){
         log.info("Running scheduled job to deduct RD account balance");
         List<Customer> RDCustomers=customerRepo.getByAccountType("RD");
 
@@ -95,7 +99,8 @@ public class UtilityServicesImplementation implements UtilityServices {
             customerRepo.save(customer);
             transactionRepo.save(transaction);
         }
-
+        log.info("Deducted RD account balances");
+        return "RD Balance deducted";
     }
 
 

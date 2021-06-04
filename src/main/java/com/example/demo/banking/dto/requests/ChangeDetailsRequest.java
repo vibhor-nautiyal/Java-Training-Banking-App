@@ -13,4 +13,12 @@ public class ChangeDetailsRequest {
     Long phone;
 
     String address;
+
+    public ChangeDetailsRequest(Integer userId, String pin, String newPin, Long phone, String address) {
+        this.userId = userId;
+        this.pin = pin;
+        this.newPin = newPin;
+        this.phone = phone;
+        this.address = address;
+    }
 }

@@ -9,5 +9,5 @@ public interface UtilityServices {
     Customer getCustomerById(Integer id);
     String createUser(CreateAccountRequest request);
     String md5Hasher(String pin)throws NoSuchAlgorithmException;
-    void deductRDBalance();
+    String deductRDBalance();
 }

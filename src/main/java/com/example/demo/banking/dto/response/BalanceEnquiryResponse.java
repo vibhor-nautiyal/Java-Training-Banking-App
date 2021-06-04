@@ -7,4 +7,12 @@ public class BalanceEnquiryResponse {
 
     private String name;
     private Double balance;
+
+    public BalanceEnquiryResponse(String name, Double balance) {
+        this.name = name;
+        this.balance = balance;
+    }
+
+    public BalanceEnquiryResponse() {
+    }
 }
