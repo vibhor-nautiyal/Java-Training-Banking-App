@@ -1,11 +1,14 @@
 package com.example.demo.banking.services.implementation;
 
+import com.example.demo.banking.Application;
 import com.example.demo.banking.dto.requests.CreateAccountRequest;
 import com.example.demo.banking.dto.transformer.CreateAccountTransformer;
 import com.example.demo.banking.entities.Customer;
 import com.example.demo.banking.entities.Transactions;
 import com.example.demo.banking.repositories.CustomerRepo;
 import com.example.demo.banking.repositories.TransactionRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -34,40 +37,50 @@ public class UtilityServices {
 //    @Autowired
 //    PasswordEncoder bcryptEncoder;
 
+    private static final Logger log= LoggerFactory.getLogger(Application.class.getName());
+
     public Customer getCustomerById(Integer id){
+        log.info("Getting customer with ID="+id);
         Optional<Customer> customer=customerRepo.findById(id);
+        if(customer.isPresent())
+            log.info("User found");
+        else log.error("User not found");
         return customer.orElse(null);
     }
 
     public String createUser(CreateAccountRequest request){
         Customer customer=createAccountTransformer.createAccountRequestToModel(request);
 //        customer.setPin(bcryptEncoder.encode(customer.getPin()));
+        log.info("Creating new user");
         try{
             String hash=md5Hasher(customer.getPin());
             customer.setPin(hash);
             customerRepo.save(customer);
+            log.info("Created User");
             return "User "+request.getName()+" created";
         }
         catch(NoSuchAlgorithmException ex){
+            log.error("Couldn't find MD5 instance");
             return "Couldn't create user!!!";
         }
     }
 
     public String md5Hasher(String pin)throws NoSuchAlgorithmException{
-
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(pin.getBytes());
-            BigInteger no = new BigInteger(1, messageDigest);
-            String hashtext = no.toString(16);
-            while (hashtext.length() < 32) {
-                hashtext = "0" + hashtext;
-            }
-            return hashtext;
+        log.info("Hashing pin using md5");
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] messageDigest = md.digest(pin.getBytes());
+        BigInteger no = new BigInteger(1, messageDigest);
+        String hashtext = no.toString(16);
+        while (hashtext.length() < 32) {
+            hashtext = "0" + hashtext;
+        }
+        return hashtext;
     }
 
 
     @Scheduled(cron = "0 0 12 1 * ?")
     void deductRDBalance(){
+        log.info("Running scheduled job to deduct RD account balance");
         List<Customer> RDCustomers=customerRepo.getByAccountType("RD");
 
         for(Customer customer: RDCustomers){
