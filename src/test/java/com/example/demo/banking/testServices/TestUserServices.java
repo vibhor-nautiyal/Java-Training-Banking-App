@@ -409,7 +409,7 @@ public class TestUserServices {
         Mockito.when(transactionTransformer.transactionsToTransactionResponse(Mockito.any(List.class))).thenReturn(response);
         List<TransactionResponse> actual;
         try{
-            actual=userServices.paginatedHistory(request,0);
+            actual=userServices.history(request);
 
         }
         catch(InvalidCredentialsException ex){
@@ -431,7 +431,7 @@ public class TestUserServices {
         Mockito.when(transactionTransformer.transactionsToTransactionResponse(Mockito.any(List.class))).thenReturn(response);
         List<TransactionResponse> actual;
         try{
-            actual=userServices.paginatedHistory(request,0);
+            actual=userServices.history(request);
         }
         catch(InvalidCredentialsException ex){
             actual=new ArrayList<>();

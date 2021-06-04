@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.Date;
 
 @SpringBootApplication
+@EnableScheduling
 public class Application {
 	private static final Logger log= LoggerFactory.getLogger(Application.class.getName());
 	public static void main(String[] args) {
@@ -20,8 +21,3 @@ public class Application {
 
 }
 
-@Configuration
-@EnableScheduling
-class SchedulerConfig{
-
-}
