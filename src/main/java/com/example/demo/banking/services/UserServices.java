@@ -10,6 +10,7 @@ import com.example.demo.banking.exceptions.InsufficientBalanceException;
 import com.example.demo.banking.exceptions.InvalidCredentialsException;
 import org.springframework.data.domain.Page;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public interface UserServices {
@@ -18,7 +19,7 @@ public interface UserServices {
     void withdraw(TransactionRequest request) throws InsufficientBalanceException, InvalidCredentialsException;
     List<TransactionResponse> history(EnquiryRequest request) throws InvalidCredentialsException;
 
-    void updatePin(ChangeDetailsRequest request) throws InvalidCredentialsException;
+    void updatePin(ChangeDetailsRequest request) throws InvalidCredentialsException, NoSuchAlgorithmException;
 
     void updatePhone(ChangeDetailsRequest request) throws InvalidCredentialsException;
 

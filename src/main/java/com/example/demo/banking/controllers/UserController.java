@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RequestMapping("/user")
@@ -104,6 +105,10 @@ public class UserController {
             userServices.updatePin(request);
             log.info("Changed pin");
             return "Successfully changed PIN";
+        }
+        catch(NoSuchAlgorithmException ex){
+            log.error(ex.getMessage());
+            return "Couldn't change pin";
         }
         catch(InvalidCredentialsException ex){
             log.error(ex.getMessage());

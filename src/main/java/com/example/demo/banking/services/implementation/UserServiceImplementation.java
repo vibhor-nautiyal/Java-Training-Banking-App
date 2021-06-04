@@ -15,6 +15,7 @@ import com.example.demo.banking.exceptions.InvalidCredentialsException;
 import com.example.demo.banking.repositories.CustomerRepo;
 import com.example.demo.banking.repositories.TransactionRepo;
 import com.example.demo.banking.services.UserServices;
+import com.example.demo.banking.services.UtilityServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,7 @@ public class UserServiceImplementation implements UserServices{
 
         log.info("Authenticating User");
 
-        Customer customer=utilityServices.getCustomerById(id);
+        Customer customer= utilityServices.getCustomerById(id);
 //        return bcryptEncoder.matches(pin,customer.getPin());
         try {
             String hash = utilityServices.md5Hasher(pin);
@@ -74,7 +73,7 @@ public class UserServiceImplementation implements UserServices{
         log.info("Request for Balance Query");
         if(!authenticate(request.getUserId(),request.getPin()))
             throw new InvalidCredentialsException("Invalid Credentials");
-        Customer customer=utilityServices.getCustomerById(request.getUserId());
+        Customer customer= utilityServices.getCustomerById(request.getUserId());
         BalanceEnquiryResponse response=balanceEnquiryTransformer.customerToBalanceEnquiry(customer);
         return response;
     }
@@ -112,12 +111,12 @@ public class UserServiceImplementation implements UserServices{
         return response;
     }
 
-    public void updatePin(ChangeDetailsRequest request)throws InvalidCredentialsException{
+    public void updatePin(ChangeDetailsRequest request)throws InvalidCredentialsException,NoSuchAlgorithmException{
         log.info("Request for updating pin");
         if(!authenticate(request.getUserId(),request.getPin()))
             throw new InvalidCredentialsException("Invalid Credentials");
-        Customer customer=utilityServices.getCustomerById(request.getUserId());
-        customer.setPin(request.getNewPin());
+        Customer customer= utilityServices.getCustomerById(request.getUserId());
+        customer.setPin(utilityServices.md5Hasher(request.getNewPin()));
         customerRepo.save(customer);
     }
 
@@ -125,7 +124,7 @@ public class UserServiceImplementation implements UserServices{
         log.info("Request for updating phone number");
         if(!authenticate(request.getUserId(),request.getPin()))
             throw new InvalidCredentialsException("Invalid Credentials");
-        Customer customer=utilityServices.getCustomerById(request.getUserId());
+        Customer customer= utilityServices.getCustomerById(request.getUserId());
         customer.setPhone(request.getPhone());
         customerRepo.save(customer);
     }
@@ -133,7 +132,7 @@ public class UserServiceImplementation implements UserServices{
         log.info("Request for updating address");
         if(!authenticate(request.getUserId(),request.getPin()))
             throw new InvalidCredentialsException("Invalid Credentials");
-        Customer customer=utilityServices.getCustomerById(request.getUserId());
+        Customer customer= utilityServices.getCustomerById(request.getUserId());
         customer.setAddress(request.getAddress());
         customerRepo.save(customer);
     }

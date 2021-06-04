@@ -7,6 +7,7 @@ import com.example.demo.banking.entities.Customer;
 import com.example.demo.banking.entities.Transactions;
 import com.example.demo.banking.repositories.CustomerRepo;
 import com.example.demo.banking.repositories.TransactionRepo;
+import com.example.demo.banking.services.UtilityServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UtilityServices {
+public class UtilityServicesImplementation implements UtilityServices {
 
     @Autowired
     private CustomerRepo customerRepo;
@@ -79,7 +80,7 @@ public class UtilityServices {
 
 
     @Scheduled(cron = "0 0 12 1 * ?")
-    void deductRDBalance(){
+    public void deductRDBalance(){
         log.info("Running scheduled job to deduct RD account balance");
         List<Customer> RDCustomers=customerRepo.getByAccountType("RD");
 

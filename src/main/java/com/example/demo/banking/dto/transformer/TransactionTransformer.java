@@ -4,7 +4,8 @@ import com.example.demo.banking.dto.requests.TransactionRequest;
 import com.example.demo.banking.dto.response.TransactionResponse;
 import com.example.demo.banking.entities.Customer;
 import com.example.demo.banking.entities.Transactions;
-import com.example.demo.banking.services.implementation.UtilityServices;
+import com.example.demo.banking.services.UtilityServices;
+import com.example.demo.banking.services.implementation.UtilityServicesImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ public class TransactionTransformer {
         Transactions transaction=new Transactions();
         transaction.setAmount(request.getAmount());
         transaction.setDate(new Date());
-        Customer customer=utilityServices.getCustomerById(request.getUserId());
+        Customer customer= utilityServices.getCustomerById(request.getUserId());
         transaction.setCustomer(customer);
         transaction.setClosingBalance(customer.getBalance()+transaction.getAmount());
 
@@ -34,7 +35,7 @@ public class TransactionTransformer {
         Transactions transaction=new Transactions();
         transaction.setAmount(-request.getAmount());
         transaction.setDate(new Date());
-        Customer customer=utilityServices.getCustomerById(request.getUserId());
+        Customer customer= utilityServices.getCustomerById(request.getUserId());
         transaction.setCustomer(customer);
         transaction.setClosingBalance(customer.getBalance()-request.getAmount());
 
