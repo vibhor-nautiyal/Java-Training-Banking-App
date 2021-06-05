@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("Transaction")
+@Repository
 public interface TransactionRepo extends CrudRepository<Transactions,Integer> {
 
     @Query(value = "select * from transactions where c_id=?1",nativeQuery = true)

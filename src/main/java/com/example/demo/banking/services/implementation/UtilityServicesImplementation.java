@@ -11,14 +11,11 @@ import com.example.demo.banking.services.UtilityServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -35,9 +32,6 @@ public class UtilityServicesImplementation implements UtilityServices {
     @Autowired
     private CreateAccountTransformerImpl createAccountTransformer;
 
-//    @Autowired
-//    PasswordEncoder bcryptEncoder;
-
     private static final Logger log= LoggerFactory.getLogger(Application.class.getName());
 
     public Customer getCustomerById(Integer id){
@@ -52,7 +46,6 @@ public class UtilityServicesImplementation implements UtilityServices {
 
     public String createUser(CreateAccountRequest request){
         Customer customer=createAccountTransformer.createAccountRequestToModel(request);
-//        customer.setPin(bcryptEncoder.encode(customer.getPin()));
         log.info("Creating new user");
         try{
             String hash=md5Hasher(customer.getPin());
@@ -102,11 +95,5 @@ public class UtilityServicesImplementation implements UtilityServices {
         log.info("Deducted RD account balances");
         return "RD Balance deducted";
     }
-
-
-//    @Scheduled(fixedDelay = 1000)
-//    void testScheduler(){
-//        System.out.println(new Date());
-//    }
 
 }

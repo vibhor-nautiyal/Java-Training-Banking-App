@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -27,6 +28,7 @@ import java.util.Optional;
 @SpringBootTest
 public class TestUtilityServices {
     @InjectMocks
+    @Spy
     UtilityServicesImplementation utilityServices;
 
     @Mock
@@ -74,6 +76,19 @@ public class TestUtilityServices {
     }
 
     @Test
+    public void test_getCustomerById_NotFound(){
+
+        Integer id = 1;
+
+        Mockito.when(customerRepo.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+
+        Customer result = utilityServices.getCustomerById(Mockito.anyInt());
+
+        assertEquals(null, result);
+
+    }
+
+    @Test
     public void test_createUser(){
 
         Mockito.when(createAccountTransformer.createAccountRequestToModel(request)).thenReturn(customer);
@@ -82,6 +97,15 @@ public class TestUtilityServices {
 
         assertEquals("User "+customer.getName()+" created",utilityServices.createUser(request));
 
+    }
+
+    @Test
+    public void test_createUser_NoSuchAlgoException() throws NoSuchAlgorithmException{
+        Mockito.when(createAccountTransformer.createAccountRequestToModel(request)).thenReturn(customer);
+        Mockito.when(customerRepo.save(customer)).thenReturn(customer);
+        Mockito.doThrow(NoSuchAlgorithmException.class).when(utilityServices).md5Hasher(Mockito.anyString());
+
+        assertEquals("Couldn't create user!!!",utilityServices.createUser(request));
     }
 
     @Test

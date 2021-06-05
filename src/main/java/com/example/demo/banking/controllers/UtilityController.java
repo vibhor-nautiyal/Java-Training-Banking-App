@@ -32,6 +32,7 @@ public class UtilityController {
 
     @GetMapping("/getById/{id}")
     public Customer getById(@PathVariable Integer id){
+
         return utilityServices.getCustomerById(id);
     }
 }

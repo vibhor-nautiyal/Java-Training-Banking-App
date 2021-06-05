@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository("CustomerRepo")
+@Repository
 public interface CustomerRepo extends CrudRepository<Customer,Integer> {
 
     @Query(value = "select * from Customer where account_type=?1",nativeQuery = true)

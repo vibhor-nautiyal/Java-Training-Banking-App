@@ -17,7 +17,7 @@ public class Transactions {
     private Integer id;
 
     @Column
-    Date date;
+    private Date date;
 
     @Column
     private Double amount;

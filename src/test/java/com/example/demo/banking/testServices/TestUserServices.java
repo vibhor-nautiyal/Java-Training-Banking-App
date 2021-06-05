@@ -97,6 +97,15 @@ public class TestUserServices {
     }
 
     @Test
+    public void test_authenticate_NoSuchAlgoException()throws NoSuchAlgorithmException{
+        Mockito.when(utilityServices.getCustomerById(Mockito.anyInt())).thenReturn(customer);
+        Mockito.when(utilityServices.md5Hasher(Mockito.anyString())).thenThrow(NoSuchAlgorithmException.class);
+
+        assertEquals(false,userServices.authenticate(Mockito.anyInt(),Mockito.anyString()));
+
+    }
+
+    @Test
     public void test_checkBalance()throws InvalidCredentialsException{
         BalanceEnquiryResponse response=new BalanceEnquiryResponse("ABC",100.0);
         EnquiryRequest request=new EnquiryRequest(1,"1234");

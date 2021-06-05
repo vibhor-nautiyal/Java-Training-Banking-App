@@ -27,16 +27,16 @@ public class UserController {
     @Autowired
     UserServices userServices;
 
-    @Autowired
-    private CustomerRepo customerRepo;
-
-    @Autowired
-    private TransactionRepo transactionRepo;
+//    @Autowired
+//    private CustomerRepo customerRepo;
+//
+//    @Autowired
+//    private TransactionRepo transactionRepo;
 
     private static final Logger log= LoggerFactory.getLogger(Application.class.getName());
 
     @PostMapping("/deposit")
-    public String deposit(@RequestBody TransactionRequest transaction) {
+    public String deposit(@RequestBody TransactionRequest transaction) throws InvalidCredentialsException {
         try {
             String msg=userServices.deposit(transaction);
             log.info("Deposit successful");

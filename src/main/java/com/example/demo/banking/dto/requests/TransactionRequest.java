@@ -15,4 +15,6 @@ public class TransactionRequest {
         this.pin = pin;
     }
 
+    public TransactionRequest() {
+    }
 }
