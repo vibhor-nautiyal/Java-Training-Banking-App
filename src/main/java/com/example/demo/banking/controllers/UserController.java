@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/user")
@@ -70,7 +71,7 @@ public class UserController {
         catch (InvalidCredentialsException ex){
 //            ex.getMessage();
             log.error(ex.getMessage());
-            return null;
+            return new BalanceEnquiryResponse("Invalid Credentials",0.0);
         }
     }
 
@@ -82,7 +83,7 @@ public class UserController {
         }
         catch(InvalidCredentialsException ex){
             log.error(ex.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -95,7 +96,7 @@ public class UserController {
         }
         catch(InvalidCredentialsException ex){
             log.error(ex.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 
