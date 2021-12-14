@@ -37,6 +37,7 @@ public class TestTransactionTransformer {
         Mockito.when(utilityServices.getCustomerById(Mockito.anyInt())).thenReturn(customer);
 
         assertEquals(transactions.getDate().toString(),transformer.depositTransactionRequestToTransaction(request).getDate().toString());
+        assertEquals(null,transformer.depositTransactionRequestToTransaction(request).getId());
 
     }
 
@@ -57,14 +58,14 @@ public class TestTransactionTransformer {
     public void test_transactionsToTransactionResponse(){
 
         Customer customer=new Customer(1,9999L,"ABC","XYZ","FD",10.0,"1234");
-        Transactions transactions=new Transactions(1,new Date(),-10.0,0.0,customer);
+        Transactions transactions=new Transactions(1,new Date(),-10.0,10.0,customer);
         List<Transactions> input=new ArrayList<>();
         input.add(transactions);
 
         TransactionResponse response=new TransactionResponse(new Date(),10.0,10.0);
 
         assertEquals(response.getDate().toString(),transformer.transactionsToTransactionResponse(input).get(0).getDate().toString());
-
+        assertEquals(response.getClosingBalance(),transformer.transactionsToTransactionResponse(input).get(0).getClosingBalance());
     }
 
 

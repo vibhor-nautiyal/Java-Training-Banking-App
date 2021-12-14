@@ -217,7 +217,7 @@ public class TestUserController {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.patch(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(new EnquiryRequest())))
+                .content(objectMapper.writeValueAsString(new ChangeDetailsRequest())))
                 .andReturn();
 
         assertEquals(200,mvcResult.getResponse().getStatus());
@@ -231,7 +231,7 @@ public class TestUserController {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.patch(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(new EnquiryRequest())))
+                .content(objectMapper.writeValueAsString(new ChangeDetailsRequest())))
                 .andReturn();
 
         assertEquals(200,mvcResult.getResponse().getStatus());
@@ -245,7 +245,7 @@ public class TestUserController {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.patch(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(new EnquiryRequest())))
+                .content(objectMapper.writeValueAsString(new ChangeDetailsRequest())))
                 .andReturn();
 
         assertEquals(200,mvcResult.getResponse().getStatus());
@@ -259,7 +259,7 @@ public class TestUserController {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.patch(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(new EnquiryRequest())))
+                .content(objectMapper.writeValueAsString(new ChangeDetailsRequest())))
                 .andReturn();
 
         assertEquals(200,mvcResult.getResponse().getStatus());
@@ -268,12 +268,12 @@ public class TestUserController {
     @Test
     public void test_changePhone_failed() throws Exception{
         String uri="/user/changePhone";
-        Mockito.when(userServices.updatePin(Mockito.any(ChangeDetailsRequest.class))).thenThrow(InvalidCredentialsException.class);
+        Mockito.when(userServices.updatePhone(Mockito.any(ChangeDetailsRequest.class))).thenThrow(InvalidCredentialsException.class);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.patch(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(new EnquiryRequest())))
+                .content(objectMapper.writeValueAsString(new ChangeDetailsRequest())))
                 .andReturn();
 
         assertEquals(200,mvcResult.getResponse().getStatus());
@@ -282,12 +282,12 @@ public class TestUserController {
     @Test
     public void test_changeAddress_success() throws Exception{
         String uri="/user/changeAddress";
-        Mockito.when(userServices.updatePin(Mockito.any(ChangeDetailsRequest.class))).thenReturn("Pin changed successfully");
+        Mockito.when(userServices.updateAddress(Mockito.any(ChangeDetailsRequest.class))).thenReturn("Pin changed successfully");
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.patch(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(new EnquiryRequest())))
+                .content(objectMapper.writeValueAsString(new ChangeDetailsRequest())))
                 .andReturn();
 
         assertEquals(200,mvcResult.getResponse().getStatus());
@@ -296,12 +296,12 @@ public class TestUserController {
     @Test
     public void test_changeAddress_failed() throws Exception{
         String uri="/user/changeAddress";
-        Mockito.when(userServices.updatePin(Mockito.any(ChangeDetailsRequest.class))).thenThrow(InvalidCredentialsException.class);
+        Mockito.when(userServices.updateAddress(Mockito.any(ChangeDetailsRequest.class))).thenThrow(InvalidCredentialsException.class);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.patch(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(new EnquiryRequest())))
+                .content(objectMapper.writeValueAsString(new ChangeDetailsRequest())))
                 .andReturn();
 
         assertEquals(200,mvcResult.getResponse().getStatus());

@@ -66,9 +66,9 @@ public class UtilityServicesImplementation implements UtilityServices {
         byte[] messageDigest = md.digest(pin.getBytes());
         BigInteger no = new BigInteger(1, messageDigest);
         String hashtext = no.toString(16);
-        while (hashtext.length() < 32) {
-            hashtext = "0" + hashtext;
-        }
+//        while (hashtext.length() < 32) {
+//            hashtext = "0" + hashtext;
+//        }
         System.out.println(pin+" "+hashtext);
         log.info("NoSuchAlgoException not thrown");
 

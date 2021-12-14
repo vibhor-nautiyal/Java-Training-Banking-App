@@ -1,8 +1,9 @@
 package com.example.demo.banking.dto.requests;
 
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class ChangeDetailsRequest {
 
     Integer userId;
@@ -13,6 +14,9 @@ public class ChangeDetailsRequest {
     Long phone;
 
     String address;
+
+    public ChangeDetailsRequest() {
+    }
 
     public ChangeDetailsRequest(Integer userId, String pin, String newPin, Long phone, String address) {
         this.userId = userId;
